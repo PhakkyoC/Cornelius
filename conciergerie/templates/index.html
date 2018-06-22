@@ -1,0 +1,193 @@
+{% extends 'header.html' %}
+{% load static %}
+{% block content %}
+<body>
+    <div class="container-perso col-sm-9">
+        <div class="row">
+            <h1>Bonjour {{ user.username}} !</h1>
+        </div>
+            <br><br>
+        <div class="row">
+            <h3>Vous pouvez organiser</h3>
+        </div>
+        <div class="row">
+            <div class="col-sm-11 bg-white">
+                <div class="col-sm-4" id="credit-type">
+                    <div class="col-sm-4">
+                        <img src="{% static 'img/ptit-dej.svg' %}" class="svg-icons" alt="">
+                    </div>
+                    <div class="col-sm-4 no-padding">
+                        <span class="credit-number">3</span>
+                        <br>
+                        <span class="event-name">petit dejeuners</span>
+                    </div>
+                </div>
+                <div class="col-sm-4" id="credit-type">
+                    <div class="col-sm-4">
+                        <img src="{% static 'img/afterwork.svg' %}" class="svg-icons" alt="">
+                    </div>
+                    <div class="col-sm-4 no-padding">
+                        <span class="credit-number">3</span>
+                        <br>
+                        <span class="event-name">afterwork</span>
+                    </div>
+                </div>
+                <div class="col-sm-4" id="credit-type">
+                    <div class="col-sm-4">
+                        <img src="{% static 'img/pot-depart.svg' %}" class="svg-icons" alt="">
+                    </div>
+                    <div class="col-sm-4 no-padding">
+                        <span class="credit-number">3</span>
+                        <br>
+                        <span class="event-name">pots de départ</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+            <br><br>
+        <div class="row">
+            <h3>Mes événements</h3>
+        </div>
+        <div id="block-my-events" class="">
+            <div class="row">
+                 <div class="col-sm-11 bg-white">
+                    <div class="col-sm-8 btn-event">
+                        <div class="card-menu">
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li role="presentation" class="active"><a href="#all" aria-controls="profile" role="tab" data-toggle="tab">Tous</a></li>
+                                <li role="presentation"><a href="#me" aria-controls="messages" role="tab" data-toggle="tab">Organisé par moi</a></li>
+                                <li role="presentation"><a href="#inivte" aria-controls="settings" role="tab" data-toggle="tab">Invitations</a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                 </div>
+            </div>
+                <div class="row">
+                    <div class="col-sm-11 bg-white">
+                        <br><br><br>
+                             <div class="col-sm-4" id="calendar-div">
+                                 <div id="my-calendar"></div>
+                                 <span><i class="fas fa-circle blue-circle"></i> organiser par moi</span> &nbsp;&nbsp;
+                                 <span><i class="fas fa-circle yellow-circle"></i> Invitation</span>
+                             </div>
+                            <div class="col-sm-offset-1 col-sm-5">
+                                <div class="tab-content">
+                                  <div id="all" class="tab-pane fade in active">
+                                      <div class="event-list">
+                                    {% for activite in activites %}
+                                        <div class="bg-grey">
+                                            <div class="col-sm-2">
+                                            {% if  activite.event.service.id == 1 %}
+                                                 <img src="{% static 'img/ptit-dej.svg' %}" class="svg-icons" alt="">
+                                            {% elif activite.event.service.id == 2 %}
+                                                 <img src="{% static 'img/afterwork.svg' %}" class="svg-icons" alt="">
+                                            {% elif activite.event.service.id == 3 %}
+                                                 <img src="{% static 'img/pot-depart.svg' %}" class="svg-icons" alt="">
+                                            {% endif %}
+                                            </div>
+                                            <div class="col-sm-7 text-padding">
+                                                {{ activite.event.title }}
+                                            </div>
+                                            <div class="col-sm-2">
+                                                    {% if user.id == activite.event.organizer.user.id %}
+                                                        <div class="circled-blue">
+                                                    {% else %}
+                                                        <div class="circled-yellow">
+                                                    {% endif %}
+                                                    <span>{{ activite.day }}</span>
+                                                    <div style="line-height: 0.1;">{{ activite.month }}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                      </div>
+                                  </div>
+                                  <div id="me" class="tab-pane fade">
+                                      <div class="event-list">
+                                        {% for activite in activites %}
+                                            {% if activite.type.id == 1 %}
+                                                <div class="bg-grey">
+                                                    <div class="col-sm-2">
+                                                         <img src="{% static 'img/pot-depart.svg' %}" class="svg-icons" alt="">
+                                                    </div>
+                                                    <div class="col-sm-7 text-padding">
+                                                        {{ activite.event.title }}
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                            {% if user.id == activite.event.organizer.user.id %}
+                                                                <div class="circled-blue">
+                                                            {% else %}
+                                                                <div class="circled-yellow">
+                                                            {% endif %}
+                                                            <span>{{ activite.day }}</span>
+                                                            <div style="line-height: 0.1;">{{ activite.month }}</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                  </div>
+                                  <div id="inivte" class="tab-pane fade">
+                                      <div class="event-list">
+                                        {% for activite in activites %}
+                                            {% if activite.type.id == 2 %}
+                                                <div class="bg-grey">
+                                                    <div class="col-sm-2">
+                                                         <img src="{% static 'img/pot-depart.svg' %}" class="svg-icons" alt="">
+                                                    </div>
+                                                    <div class="col-sm-7 text-padding">
+                                                        {{ activite.event.title }}
+                                                    </div>
+                                                    <div class="col-sm-2">
+                                                            {% if user.id == activite.event.organizer.user.id %}
+                                                                <div class="circled-blue">
+                                                            {% else %}
+                                                                <div class="circled-yellow">
+                                                            {% endif %}
+                                                            <span>{{ activite.day }}</span>
+                                                            <div style="line-height: 0.1;">{{ activite.month }}</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                  </div>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+    <div class="container-small-perso col-sm-3">
+        <h3>ACTIVITE</h3>
+        {% if activites|length > 0 %}
+            {% for activite in activites %}
+                <div class="event-card">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h5><a href="">{{ activite.date }}</a> {{ activite.type.name }}</h5>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-2">
+                            <img src="/static/img/{{ activite.event.organizer.avatar }}" class="avatar">
+                        </div>
+                        <div class="col-sm-10">
+                            <div><h4>{{ activite.event.title }}</h4></div>
+                            <div><h4>{{ activite.event.desc }}</h4></div>
+                            <div><h4>Pour un {{ activite.event.service.name }}</h4></div>
+                            <div><h4>à {{ activite.event.place.name }}</h4></div>
+                            <div><h4>Le {{ activite.event.date }}</h4></div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+    </div>
+</body>
+{% endblock %}

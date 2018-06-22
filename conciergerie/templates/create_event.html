@@ -1,0 +1,186 @@
+{% extends 'header.html' %}
+{% load static %}
+{% block content %}
+<body>
+    <div class="container-perso form col-sm-9">
+        <div class="row">
+            <div class="progress">
+              <div class="progress-bar" id="progress" role="progressbar" style="width:33%"></div>
+            </div>
+        </div>
+        <div class="row row-title bg-trans">
+            <h4 style="color:white;">CREATION D'EVENEMENT</h4>
+        </div>
+
+        <div class="row">
+            <article id="form-1">
+                <div class="row">
+                    <div class="col-sm-offset-2 col-sm-8 col-sm-offset-2">
+                        <input type="text" placeholder="titre" id="title-fake" onkeyup="update(this);" class="material-input material-input-large material-input-yellow">
+                    </div>
+                    <div class="col-sm-offset-2 col-sm-8 col-sm-offset-2">
+                        <input type="text" placeholder="description" id="desc-fake" onkeyup="update(this);" class="material-input material-input-medium material-input-yellow">
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-sm-offset-2 col-sm-8 col-sm-offset-2">
+                        <div class="col-sm-5">
+                            <span class="form-span">Je veux organiser un(e)</span>
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="mdl-selectfield">
+                                <select class="browser-default" id="service-fake" onchange="update(this);">
+                                    <option value="" disabled selected>Choose your option</option>
+                                    {% for service in services %}
+                                        <option value="{{ service.id }}">{{ service.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-offset-2 col-sm-8 col-sm-offset-2">
+                        <div class="col-sm-1">
+                            <span class="form-span">le</span>
+                        </div>
+                        <div class="col-sm-5">
+                            <input id="date-fake" placeholder="date" onchange="update(this);" data-provide="datepicker" data-date-format="dd-mm-yyyy" data-date-language="fr" class="material-input material-input-medium material-input-lightgrey">
+                        </div>
+                        <div class="col-sm-1">
+                            <span class="form-span">à</span>
+                        </div>
+                        <div class="col-sm-5">
+                            <div class="col-sm-5">
+                                <input type="text" placeholder="heure" id="hour-fake" onkeyup="update(this);" style="text-align: center" class="material-input material-input-medium material-input-lightgrey">
+                            </div>
+                            <div class="col-sm-1">
+                                <span class="form-span">h</span>
+                            </div>
+                            <div class="col-sm-5">
+                                <input type="text" placeholder="minutes" id="minutes-fake" onkeyup="update(this);" style="text-align: center" class="material-input material-input-medium material-input-lightgrey">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-offset-2 col-sm-8 col-sm-offset-2">
+                        <div class="col-sm-2">
+                            <span class="form-span">Dans</span>
+                        </div>
+                        <div class="col-sm-7">
+                            <div class="mdl-selectfield">
+                                <select class="browser-default" id="placetype-fake" onchange="showLastField(this);update(this);">
+                                    <option value="" disabled selected>Choose your option</option>
+                                    {% for placetype in placetypes %}
+                                        <option value="{{ placetype.id }}">{{ placetype.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row" id="out" hidden>
+                    <div class="col-sm-offset-2 col-sm-8 col-sm-offset-2">
+                        <div class="col-sm-4">
+                            <span class="form-span">A proximité de </span>
+                        </div>
+                        <div class="col-sm-7">
+                            <input type="text" placeholder="proche de" class="material-input material-input-medium material-input-lightgrey" id="search-fake" onkeyup="update(this);">
+                        </div>
+                    </div>
+                </div>
+                <br><br><br>
+                <div class="row row-btn">
+                    <div class="col-sm-offset-2 col-sm-8 col-sm-offset-2">
+                        <div class="col-sm-2">
+                            <a class="btn-retour btn btn-primary" href="{% url 'index' %}">Retour</a>
+                        </div>
+                        <div class="col-sm-offset-8 col-sm-2">
+                            <a class="btn-suivant btn btn-primary" href="javascript:to_form(2);">Suivant</a>
+                        </div>
+                    </div>
+                </div>
+            </article>
+            <article id="form-2" hidden>
+                <div class="col-sm-offset-2 col-sm-8 col-sm-offset-2">
+                    <h2 style="color:white;">Je veux inviter</h2>
+                </div>
+                <div class="col-sm-offset-2 col-sm-8 col-sm-offset-2">
+                    <input type="text" value="" id="invite-fake" placeholder="invités ..." onchange="update(this);"  data-role="tagsinput" class="material-input material-input-medium">
+                </div>
+                <div class="row row-btn">
+                    <div class="col-sm-offset-2 col-sm-8 col-sm-offset-2">
+                        <div class="col-sm-2">
+                            <a class="btn-retour btn btn-primary" href="javascript:to_form(1);">Retour</a>
+                        </div>
+                        <div class="col-sm-offset-8 col-sm-2" hidden id="btn-suivant-2">
+                            <a class="btn-retour btn btn-primary"  href="javascript:to_form(3);">Suivant</a>
+                        </div>
+                    </div>
+                </div>
+            </article>
+            <article id="form-3" hidden>
+              <div class="row">
+                <div class="col-sm-offset-2 col-sm-8 col-sm-offset-2" id="card-div">
+
+                </div>
+            </div>
+                <br><br>
+                <div class="row row-btn">
+                    <div class="col-sm-offset-2 col-sm-8 col-sm-offset-2">
+                        <div class="col-sm-2">
+                            <a class="btn-retour btn btn-primary" href="javascript:to_form(2);">Retour</a>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </div>
+    <div class="container-small-perso col-sm-3">
+        <div class="row">
+            <div class="">
+                <h3 style="color: #9e9e9e">Votre évenement</h3>
+                <div class="little-title" id="title-display"></div>
+                <div class="little-texte" id="desc-display"></div>
+                <div class="little-texte" >Type : <span id="service-display"></span></div>
+                <br>
+                <div class="little-texte">le <span id="date-display"></span> à <span id="hour-display"></span>h<span id="minutes-display"></span></div>
+                <div class="little-texte">Dans <span id="placetype-display"></span></div>
+                <div class="little-texte" id="out-display" hidden>à proximité de <span id="search-display"></span> </div>
+                <br>
+                <div class="little-texte">Les invités <div id="invite-display"></div></div>
+                <br>
+                <div class="row" id="card-recap" hidden>
+                    <div class="col-sm-9">
+                        <div class="card">
+                            <img src="{% static 'img/avatar.jpg' %}" class="img-card" id="img-recap" style="width:100%">
+                            <div class="container-card">
+                                <h4 id="title-recap"><b>Jane Doe</b></h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" id="title-hidden" name="title">
+                    <input type="hidden" id="desc-hidden" name="desc">
+                    <input type="hidden" id="placetype-hidden" name="placetype">
+                    <input type="hidden" id="service-hidden" name="service">
+                    <input type="hidden" id="date-hidden" name="date">
+                    <input type="hidden" id="hour-hidden" name="hour">
+                    <input type="hidden" id="minutes-hidden" name="minutes">
+                    <input type="hidden" id="invite-hidden" name="invite">
+                    <input type="hidden" id="place-hidden" name="place">
+                    <div id="btn-submit" class="col-sm-offset-2" hidden>
+                        <input type="submit" class="btn-solde-event btn btn-primary" value="Envoyer l'invitation">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+{% endblock %}
