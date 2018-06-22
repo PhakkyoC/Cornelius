@@ -25,9 +25,8 @@ SECRET_KEY = '$bv2#xzp@-&p7f^by&$1=k#ml2jo7flzj$j64^^h@mxc*-62#$'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
 
-
+ALLOWED_HOSTS = ['cornelius-conciergerie.herokuapp.com','127.0.0.1','localhost']
 # Application definition
 
 INSTALLED_APPS = [
